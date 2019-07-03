@@ -10,7 +10,7 @@ $ticket_payload = array(
   'description' => 'testing description content',
   'priority' => 2,
   'status' => 2,
-  'attachments[]' =>  curl_file_create("data/x.png", "image/png", "x.png")
+  'attachments[]' =>  '@path-to-file/x.png'
 );
 
 $url = "https://$yourdomain.freshdesk.com/api/v2/tickets";
