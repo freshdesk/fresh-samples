@@ -7,22 +7,21 @@
 <script type="text/javascript" src="/javascripts/integrations/whmcsjs.js">
 </script>
 <script type="text/javascript">
-//specify the access url for freshdesk_widget.php.
-var whmcs_url = 'http://mywhmcs.domain.com/whmcs/freshdesk_widget.php?'
-
+// If http://www.freshdesk.com/whmcs/freshdesk_widget.php is the access url path then enter "http://www.freshdesk.com/whmcs/"
+var whmcs_url = "http://www.freshdesk.com/whmcs/"; // Replace with your access url.
 //Specify your app access key.
-whmcs_data={ app_key:"test12345", email:"{{requester.email}}",agent:"{{current_user.email}}"}; 
+var app_key = "app_key_here"; //Replace with your app key.
+api_url = "freshdesk_widget.php?agent={{current_user.email}}&app_key="+app_key+"&email={{requester.email}}";
 
-if(whmcs_data.email.trim() ==""){
+if("{{requester.email}}".trim() =="") {
  jQuery("#whmcs_widget .error").removeClass("hide");
  jQuery("#whmcs_widget .error").html("Email Not found for requester.");
-
 }
-else{
+else {
 jQuery.ajax({
-          type: 'POST',    
-          url: whmcs_url, 
-          data:whmcs_data,     
+          type: 'POST',
+          url: "/http_request_proxy/fetch", 
+          data:  {domain: whmcs_url, rest_url: api_url, method:'get'},    
           cache:false,
           timeout: 30000
         }).always(function(){ 
