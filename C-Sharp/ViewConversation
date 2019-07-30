@@ -1,0 +1,63 @@
+using Freshdesk;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Web;
+using System.Web.Hosting;
+using System.Web.Script.Serialization;
+using System.Web.Services;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+namespace Consume_FreshDesk_API
+{
+    public partial class ManageTicket : System.Web.UI.Page
+    {
+
+ public static string ViewResponseTicket(int id)
+        {
+            string fdDomain = "domain"; // your freshdesk domain
+            string apiKey = "youkey";    // your freshdesk api Key
+
+             string apiPath = "/api/v2/tickets/" + id + "?include=conversations,requester";
+            
+            string responseBody = String.Empty;
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://" + fdDomain + ".freshdesk.com" + apiPath);
+            request.ContentType = "application/json";
+            request.Method = "GET";
+            string authInfo = apiKey + ":X"; // It could be your username:password also.
+            authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
+            request.Headers["Authorization"] = "Basic " + authInfo;
+            try
+            {
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    Stream dataStream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(dataStream);
+                    responseBody = reader.ReadToEnd();
+                    reader.Close();
+                    dataStream.Close();
+                }
+
+                return responseBody.ToString();
+               
+            }
+            catch (WebException ex)
+            {
+
+                return ex.Message;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+}
+}
