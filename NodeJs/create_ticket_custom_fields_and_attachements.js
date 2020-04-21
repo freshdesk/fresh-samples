@@ -11,14 +11,16 @@ var PATH = "/api/v2/tickets";
 var enocoding_method = "base64";
 var auth = "Basic " + new Buffer(API_KEY + ":" + 'X').toString(enocoding_method);
 var URL =  "https://" + FD_ENDPOINT + ".freshdesk.com"+ PATH;
-
+var tags = ['Testing1', 'Testing2'];
+var custom_fields = {'department': 'IT'};
 var fields = {
   'email': 'email@yourdomain.com',
   'subject': 'Ticket subject',
   'description': 'Ticket description.',
   'status': 2,
   'priority': 1,
-  'custom_fields[department]':'IT'
+  'tags': tags,
+  'custom_fields':custom_fields
 }
 
 var headers = {
