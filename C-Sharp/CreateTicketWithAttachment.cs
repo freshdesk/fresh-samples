@@ -15,21 +15,21 @@ namespace FreshdeskTest
         
         private static void writeCRLF(Stream o)
         {
-            byte[] crLf = Encoding.ASCII.GetBytes("\r\n");
+            byte[] crLf = Encoding.UTF8.GetBytes("\r\n");
             o.Write(crLf, 0, crLf.Length);
         }
         
         private static void writeBoundaryBytes(Stream o, string b, bool isFinalBoundary)
         {
             string boundary = isFinalBoundary == true ? "--" + b + "--" : "--" + b + "\r\n";
-            byte[] d = Encoding.ASCII.GetBytes(boundary);
+            byte[] d = Encoding.UTF8.GetBytes(boundary);
             o.Write(d, 0, d.Length);
         }
         
         private static void writeContentDispositionFormDataHeader(Stream o, string name)
         {
             string data = "Content-Disposition: form-data; name=\"" + name + "\"\r\n\r\n";
-            byte[] b = Encoding.ASCII.GetBytes(data);
+            byte[] b = Encoding.UTF8.GetBytes(data);
             o.Write(b, 0, b.Length);
         }
         
@@ -37,13 +37,13 @@ namespace FreshdeskTest
         {
             string data = "Content-Disposition: form-data; name=\"" + name + "\"; filename=\"" + fileName + "\"\r\n";
             data += "Content-Type: " + contentType + "\r\n\r\n";
-            byte[] b = Encoding.ASCII.GetBytes(data);
+            byte[] b = Encoding.UTF8.GetBytes(data);
             o.Write(b, 0, b.Length);
         }
         
         private static void writeString(Stream o, string data)
         {
-            byte[] b = Encoding.ASCII.GetBytes(data);
+            byte[] b = Encoding.UTF8.GetBytes(data);
             o.Write(b, 0, b.Length);
         }
 
@@ -123,7 +123,7 @@ namespace FreshdeskTest
                     Console.WriteLine("Submitting Request");
                     var response = (HttpWebResponse)wr.GetResponse();
                     Stream resStream = response.GetResponseStream();
-                    string Response = new StreamReader(resStream, Encoding.ASCII).ReadToEnd();
+                    string Response = new StreamReader(resStream, Encoding.UTF8).ReadToEnd();
                     //return status code
                     Console.WriteLine("Status Code: {1} {0}", ((HttpWebResponse)response).StatusCode, (int)((HttpWebResponse)response).StatusCode);
                     //return location header
